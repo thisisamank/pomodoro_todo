@@ -12,8 +12,14 @@ class Tasks extends StatefulWidget {
 
 class _TasksState extends State<Tasks> {
   final _tasks = Task.tasks;
+  List<Task> completedTasks = [];
+
   @override
   Widget build(BuildContext context) {
+    _tasks[0].markComplete(true);
+    _tasks.forEach((task) {
+      if (task.isCompleted == true) completedTasks.add(task);
+    });
     final size = MediaQuery.of(context).size;
     var estimatedTime = 0;
     _tasks.forEach((element) =>
@@ -45,75 +51,46 @@ class _TasksState extends State<Tasks> {
                         getTaskPriorityColor(_tasks[index].priority);
                     final statusBorderColor =
                         getTaskPriorityBorderColor(_tasks[index].priority);
-                    return getTaskWidget(
-                        size, statusColor, statusBorderColor, _tasks[index]);
+                    return TaskWidget(
+                        size: size,
+                        statusColor: statusColor,
+                        statusBorderColor: statusBorderColor,
+                        task: _tasks[index],
+                        iconColor: BrandColors.blue,
+                        suffixIcon: Icons.play_arrow_rounded);
                   },
                   separatorBuilder: (context, index) => SizedBox(height: 10),
                   itemCount: _tasks.length),
-            )
+            ),
+            SizedBox(height: 16),
+            Text(
+              "Completed",
+              style: BrandTextStyles.heading1.copyWith(fontSize: 18),
+            ),
+            SizedBox(height: 16),
+            Expanded(
+              child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    final statusColor =
+                        getTaskPriorityColor(completedTasks[index].priority);
+                    final statusBorderColor = getTaskPriorityBorderColor(
+                        completedTasks[index].priority);
+                    return TaskWidget(
+                      size: size,
+                      statusColor: BrandColors.lightGreen,
+                      statusBorderColor: BrandColors.red,
+                      task: completedTasks[index],
+                      iconColor: BrandColors.red,
+                      suffixIcon: Icons.cancel_outlined,
+                      prefixIcon: Icons.done,
+                    );
+                  },
+                  separatorBuilder: (context, index) => SizedBox(height: 10),
+                  itemCount: completedTasks.length),
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  Container getTaskWidget(
-      Size size, statusColor, statusBorderColor, Task task) {
-    return Container(
-      width: size.width * .8,
-      height: 60,
-      decoration: BoxDecoration(
-        color: BrandColors.secondaryBackground,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        SizedBox(width: 0),
-        CircularStatus(
-          statusColor: statusColor,
-          borderColor: statusBorderColor,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              task.taskName,
-              style: BrandTextStyles.body1.copyWith(
-                color: Colors.grey.shade300,
-              ),
-            ),
-            SizedBox(height: 6),
-            Text(
-              '${task.completedIntervals.toString()} minutes',
-              style: BrandTextStyles.body1.copyWith(
-                color: Colors.grey.shade500,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(width: 26),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '${task.completedIntervals}/${task.totalIntervals}',
-              style: BrandTextStyles.body1.copyWith(
-                color: Colors.grey.shade300,
-              ),
-            ),
-            SizedBox(height: 6),
-            Text(
-              '${task.workIntervals.toString()} min',
-              style: BrandTextStyles.body1.copyWith(
-                color: Colors.grey.shade500,
-              ),
-            ),
-          ],
-        ),
-        CircularIcon(color: BrandColors.blue, icon: Icons.play_arrow_rounded),
-        SizedBox(width: 0),
-      ]),
     );
   }
 
@@ -168,5 +145,90 @@ class _TasksState extends State<Tasks> {
             Text('Total tasks\nin projects', style: BrandTextStyles.body1),
           ],
         ));
+  }
+}
+
+class TaskWidget extends StatelessWidget {
+  const TaskWidget({
+    @required this.size,
+    @required this.statusColor,
+    @required this.statusBorderColor,
+    @required this.task,
+    @required this.iconColor,
+    @required this.suffixIcon,
+    this.prefixIcon,
+  });
+
+  final Size size;
+  final statusColor;
+  final statusBorderColor;
+  final Task task;
+  final Color iconColor;
+  final IconData suffixIcon;
+  final IconData prefixIcon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size.width * .8,
+      height: 60,
+      decoration: BoxDecoration(
+        color: BrandColors.secondaryBackground,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        SizedBox(width: 0),
+        prefixIcon == null
+            ? CircularStatus(
+                statusColor: statusColor,
+                borderColor: statusBorderColor,
+              )
+            : CircularIcon(
+                color: statusColor,
+                icon: prefixIcon,
+              ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              task.taskName,
+              style: BrandTextStyles.body1.copyWith(
+                color: Colors.grey.shade300,
+              ),
+            ),
+            SizedBox(height: 6),
+            Text(
+              '${task.completedIntervals.toString()} minutes',
+              style: BrandTextStyles.body1.copyWith(
+                color: Colors.grey.shade500,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(width: 26),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '${task.completedIntervals}/${task.totalIntervals}',
+              style: BrandTextStyles.body1.copyWith(
+                color: Colors.grey.shade300,
+              ),
+            ),
+            SizedBox(height: 6),
+            Text(
+              '${task.workIntervals.toString()} min',
+              style: BrandTextStyles.body1.copyWith(
+                color: Colors.grey.shade500,
+              ),
+            ),
+          ],
+        ),
+        CircularIcon(color: iconColor, icon: suffixIcon),
+        SizedBox(width: 0),
+      ]),
+    );
   }
 }

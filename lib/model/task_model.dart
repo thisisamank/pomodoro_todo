@@ -71,10 +71,9 @@ class Task {
       breakIntervals: 5,
     ),
   ];
-}
-
-set isCompleted(bool completed) {
-  isCompleted = completed;
+  void markComplete(bool completed) {
+    isCompleted = completed;
+  }
 }
 
 enum TaskPriority { high, medium, low }
