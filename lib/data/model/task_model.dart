@@ -4,8 +4,8 @@ class Task {
   final String taskName;
   final String description;
   final TaskPriority priority;
-  final int totalIntervals;
-  final int completedIntervals;
+  final int totalNoOfIntervals;
+  final int completedNoOfIntervals;
 
   /// [workIntervals] is to store the duration
   /// of each interval
@@ -14,12 +14,12 @@ class Task {
   final int completedMinutes;
   bool isCompleted = false;
   Task({
-    this.completedIntervals = 0,
+    this.completedNoOfIntervals = 0,
     this.completedMinutes,
     @required this.taskName,
     this.description,
     @required this.priority,
-    @required this.totalIntervals,
+    @required this.totalNoOfIntervals,
     @required this.workIntervals,
     @required this.breakIntervals,
   });
@@ -38,8 +38,8 @@ class Task {
       taskName: taskName ?? this.taskName,
       description: description ?? this.description,
       priority: priority ?? this.priority,
-      totalIntervals: totalIntervals ?? this.totalIntervals,
-      completedIntervals: completedIntervals ?? this.completedIntervals,
+      totalNoOfIntervals: totalIntervals ?? this.totalNoOfIntervals,
+      completedNoOfIntervals: completedIntervals ?? this.completedNoOfIntervals,
       workIntervals: workIntervals ?? this.workIntervals,
       breakIntervals: breakIntervals ?? this.breakIntervals,
       completedMinutes: completedMinutes ?? this.completedMinutes,
@@ -51,7 +51,7 @@ class Task {
       taskName: 'Homework',
       description: 'Non voluptate eu velit in magna.',
       priority: TaskPriority.medium,
-      totalIntervals: 3,
+      totalNoOfIntervals: 3,
       workIntervals: 25,
       breakIntervals: 5,
     ),
@@ -59,14 +59,14 @@ class Task {
       taskName: 'Assignments',
       description: 'Irure amet tempor enim ea excepteur.',
       priority: TaskPriority.high,
-      totalIntervals: 5,
+      totalNoOfIntervals: 5,
       workIntervals: 25,
       breakIntervals: 8,
     ),
     Task(
       taskName: 'Files',
       priority: TaskPriority.low,
-      totalIntervals: 3,
+      totalNoOfIntervals: 3,
       workIntervals: 25,
       breakIntervals: 5,
     ),

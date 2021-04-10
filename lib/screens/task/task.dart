@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro_todo/constants/colors.dart';
 import 'package:pomodoro_todo/constants/styles.dart';
-import 'package:pomodoro_todo/model/task_model.dart';
+import 'package:pomodoro_todo/data/model/task_model.dart';
 import 'package:pomodoro_todo/widgets/circular_icon.dart';
 import 'package:pomodoro_todo/widgets/circular_status.dart';
 
