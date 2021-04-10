@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro_todo/constants/colors.dart';
 import 'package:pomodoro_todo/constants/styles.dart';
 import 'package:pomodoro_todo/data/model/task_model.dart';
+import 'package:pomodoro_todo/widgets/button.dart';
 import 'package:pomodoro_todo/widgets/circular_icon.dart';
 import 'package:pomodoro_todo/widgets/circular_status.dart';
 
@@ -23,11 +24,11 @@ class _TasksState extends State<Tasks> {
     final size = MediaQuery.of(context).size;
     var estimatedTime = 0;
     _tasks.forEach((element) =>
-        estimatedTime = element.workIntervals * element.totalIntervals);
+        estimatedTime = element.workIntervals * element.totalNoOfIntervals);
     print((estimatedTime / 60).toStringAsFixed(1));
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -36,14 +37,14 @@ class _TasksState extends State<Tasks> {
               "Today",
               style: BrandTextStyles.heading1,
             ),
-            SizedBox(height: 24),
+            SizedBox(height: 16),
             todoData(size, estimatedTime),
-            SizedBox(height: 24),
+            SizedBox(height: 16),
             Text(
               "All Tasks",
               style: BrandTextStyles.heading1.copyWith(fontSize: 18),
             ),
-            SizedBox(height: 24),
+            SizedBox(height: 16),
             Expanded(
               child: ListView.separated(
                   itemBuilder: (context, index) {
@@ -80,7 +81,7 @@ class _TasksState extends State<Tasks> {
                       statusColor: BrandColors.lightGreen,
                       statusBorderColor: BrandColors.red,
                       task: completedTasks[index],
-                      iconColor: BrandColors.red,
+                      iconColor: BrandColors.brightRed,
                       suffixIcon: Icons.cancel_outlined,
                       prefixIcon: Icons.done,
                     );
@@ -88,6 +89,18 @@ class _TasksState extends State<Tasks> {
                   separatorBuilder: (context, index) => SizedBox(height: 10),
                   itemCount: completedTasks.length),
             ),
+            SizedBox(height: 6),
+            Center(
+                child: Button(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/newTask', (route) => false);
+              },
+              title: 'Add New Task',
+              width: size.width * .8,
+              height: 40,
+            )),
+            SizedBox(height: 6),
           ],
         ),
       ),
@@ -199,7 +212,7 @@ class TaskWidget extends StatelessWidget {
             ),
             SizedBox(height: 6),
             Text(
-              '${task.completedIntervals.toString()} minutes',
+              '${task.completedNoOfIntervals.toString()} minutes',
               style: BrandTextStyles.body1.copyWith(
                 color: Colors.grey.shade500,
               ),
@@ -212,7 +225,7 @@ class TaskWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${task.completedIntervals}/${task.totalIntervals}',
+              '${task.completedNoOfIntervals}/${task.totalNoOfIntervals}',
               style: BrandTextStyles.body1.copyWith(
                 color: Colors.grey.shade300,
               ),

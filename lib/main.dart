@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro_todo/constants/colors.dart';
+import 'package:pomodoro_todo/screens/new_task/add_new_task.dart';
 import 'package:pomodoro_todo/screens/task/task.dart';
 import 'package:pomodoro_todo/screens/timer/timer.dart';
 
@@ -19,6 +20,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/newTask': (context) => NewTaskAdd(),
+      },
       home: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           onTap: _changeScreen,
