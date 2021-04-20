@@ -46,4 +46,11 @@ class TaskProvider extends ChangeNotifier {
     task.completedMinutes = task.workIntervals * task.completedNoOfIntervals;
     notifyListeners();
   }
+
+  String get estimatedTime {
+    var estimatedTime = 0.0;
+    _tasks.forEach((element) => estimatedTime =
+        (element.workIntervals * element.totalNoOfIntervals) / 60);
+    return estimatedTime.toStringAsFixed(2);
+  }
 }

@@ -179,8 +179,8 @@ class _NewTaskAddState extends State<NewTaskAdd> {
             NumberPicker(
               itemCount: 5,
               itemWidth: 60,
-              minValue: 1,
-              maxValue: 45,
+              minValue: 25,
+              maxValue: 60,
               textStyle: TextStyle(
                 color: BrandColors.primaryText,
                 fontSize: 16,
@@ -218,7 +218,7 @@ class _NewTaskAddState extends State<NewTaskAdd> {
             NumberPicker(
               itemCount: 5,
               itemWidth: 60,
-              minValue: 1,
+              minValue: 5,
               maxValue: 15,
               textStyle: TextStyle(
                 color: BrandColors.primaryText,
