@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro_todo/data/task_priority.dart';
 
 class Task {
   final String taskName;
   final String description;
   final TaskPriority priority;
   final int totalNoOfIntervals;
-  final int completedNoOfIntervals;
+  int completedNoOfIntervals;
 
   /// [workIntervals] is to store the duration
   /// of each interval
   final int workIntervals;
   final int breakIntervals;
-  final int completedMinutes;
+  int completedMinutes;
   bool isCompleted = false;
   Task({
     this.completedNoOfIntervals = 0,
@@ -75,5 +76,3 @@ class Task {
     isCompleted = completed;
   }
 }
-
-enum TaskPriority { high, medium, low }

@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro_todo/constants/colors.dart';
 import 'package:pomodoro_todo/constants/styles.dart';
 import 'package:pomodoro_todo/data/model/task_model.dart';
+import 'package:pomodoro_todo/data/provider/task_provider.dart';
+import 'package:pomodoro_todo/data/task_priority.dart';
 import 'package:pomodoro_todo/widgets/button.dart';
 import 'package:pomodoro_todo/widgets/circular_icon.dart';
 import 'package:pomodoro_todo/widgets/circular_status.dart';
+import 'package:provider/provider.dart';
 
 class Tasks extends StatefulWidget {
   @override
@@ -12,15 +15,13 @@ class Tasks extends StatefulWidget {
 }
 
 class _TasksState extends State<Tasks> {
-  final _tasks = Task.tasks;
+  var _tasks = [];
   List<Task> completedTasks = [];
 
   @override
   Widget build(BuildContext context) {
-    _tasks[0].markComplete(true);
-    _tasks.forEach((task) {
-      if (task.isCompleted == true) completedTasks.add(task);
-    });
+    var provider = Provider.of<TaskProvider>(context);
+    _tasks = provider.tasks;
     final size = MediaQuery.of(context).size;
     var estimatedTime = 0;
     _tasks.forEach((element) =>
